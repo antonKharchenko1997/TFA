@@ -4,7 +4,7 @@ namespace TFA.Storage;
 
 public class ForumDbContext : DbContext
 {
-    public ForumDbContext(DbContextOptions<ForumDbContext> options) : base(options)
+    public ForumDbContext(DbContextOptions options) : base(options)
     {
         
     }

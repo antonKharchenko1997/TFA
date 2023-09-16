@@ -1,17 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using TFA.Domain.UseCases.CreateTopic;
+using TFA.Domain.UseCases.GetForums;
 using TFA.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var connectionString = builder.Configuration.GetConnectionString("Postgres");
 builder.Services.AddControllers();
+builder.Services.AddTransient<IGetForumsUseCase, GetForumsUseCase>();
+builder.Services.AddTransient<ICreateTopicUseCase, CreateTopicUseCase>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ForumDbContext>(opt =>
-        opt.UseNpgsql(
-            "User ID=postgres;Password=admin;Host=localhost;Port=5432;Database=tfa;Pooling=true;MinPoolSize=0;MaxPoolSize=100;Connection Idle Lifetime=60;"),
+        opt.UseNpgsql(connectionString),
     ServiceLifetime.Singleton);
 
 var app = builder.Build();
